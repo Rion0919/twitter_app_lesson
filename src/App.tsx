@@ -12,19 +12,21 @@ const App: React.FC = () => {
 
   useEffect(() => {
     const unSub = auth.onAuthStateChanged((authUser) => {
-      if (!authUser) {
+      if (authUser) {
         dispatch(
           login({
-            uid: authUser!.uid,
-            photoUrl: authUser!.photoURL,
-            displayName: authUser!.displayName,
+            uid: authUser.uid,
+            photoUrl: authUser.photoURL,
+            displayName: authUser.displayName,
           })
         );
       } else {
         dispatch(logout());
       }
     });
-    return () => unSub();
+    return () => {
+      unSub()
+    };
   }, [dispatch]);
 
   return (
